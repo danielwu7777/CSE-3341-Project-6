@@ -1,3 +1,7 @@
+; Daniel Wu
+; Was unable to implement planFunction, but all other test cases pass (11/14)
+
+
 (define (myinterpreter prog)
     (evalExpr (car (cdr prog)) '())
 )
@@ -14,22 +18,27 @@
             )
        )
        ((equal? 'planAdd (car expr))
-            (+ (evalExpr (car (cdr expr)) bindings) (evalExpr (car (cdr (cdr expr))) bindings))
+            (+ (evalExpr (car (cdr expr)) bindings) 
+                (evalExpr (car (cdr (cdr expr))) bindings))
        )
        ((equal? 'planMul (car expr))
-            (* (evalExpr (car (cdr expr)) bindings) (evalExpr (car (cdr (cdr expr))) bindings))
+            (* (evalExpr (car (cdr expr)) bindings) 
+                (evalExpr (car (cdr (cdr expr))) bindings))
        )
        ((equal? 'planSub (car expr))
-            (- (evalExpr (car (cdr expr)) bindings) (evalExpr (car (cdr (cdr expr))) bindings))
+            (- (evalExpr (car (cdr expr)) bindings) 
+                (evalExpr (car (cdr (cdr expr))) bindings))
        )
        ((equal? 'planLet (car expr))
             (evalExpr (car (cdr (cdr (cdr expr))))
-                (cons (cons (car (cdr expr)) (evalExpr (car (cdr (cdr expr))) bindings)) bindings)
+                (cons (cons (car (cdr expr)) 
+                    (evalExpr (car (cdr (cdr expr))) bindings)) bindings)
             )
        )
     )
 )
 
+; Returns the value associated with id
 (define (searchBindingList id list)
     (cond
         ((equal? id (car (car list))) (cdr (car list)))
